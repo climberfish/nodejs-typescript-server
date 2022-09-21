@@ -6,6 +6,7 @@ const baseDir = path.join(__dirname, '/../.data/');
 const getFileName = (dir: string, file: string) => `${baseDir}${dir}/${file}.json`;
 
 const create = (dir: string, file: string, data: object) => {
+  console.log('creating', dir, file, data);
   const filename = getFileName(dir, file);
   const mkdirErr = fs.mkdirSync(path.dirname(filename), { recursive: true });
   if (mkdirErr) throw mkdirErr;

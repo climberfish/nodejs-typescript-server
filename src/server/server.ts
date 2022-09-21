@@ -3,7 +3,7 @@ import { StringDecoder } from 'string_decoder';
 import { IncomingMessage, ServerResponse, Server as HttpServer } from 'http';
 import { Server as HttpsServer } from 'https';
 import config from '../config';
-import Router from '../router';
+import Router, { HttpMethod } from '../router';
 
 type ServerType = HttpServer | HttpsServer;
 
@@ -29,7 +29,11 @@ export const defaultRequestListener = (req: IncomingMessage, res: ServerResponse
 
   const queryString = parsedUrl.query;
 
-  const method = req.method.toLowerCase();
+  const method = req.method.toUpperCase();
+  if (!Object.keys(HttpMethod).includes(method)) {
+    res.writeHead(405);
+    res.end();
+  }
 
   const headers = req.headers;
 
@@ -40,7 +44,7 @@ export const defaultRequestListener = (req: IncomingMessage, res: ServerResponse
   req.on('end', () => {
     payload += decoder.end();
 
-    const data = { path: trimmedPath, queryString, method, headers, payload };
+    const data = { path: trimmedPath, queryString, method: method as unknown as HttpMethod, headers, payload };
 
     const result = router.handle(data);
 
