@@ -41,14 +41,14 @@ export const defaultRequestListener = (req: IncomingMessage, res: ServerResponse
   let payload = '';
   req.on('data', (data) => { payload += decoder.write(data); });
 
-  req.on('end', () => {
+  req.on('end', async () => {
     payload += decoder.end();
 
     const data = {
       path: trimmedPath, queryString, method: method as unknown as HttpMethod, headers, payload,
     };
 
-    const result = router.handle(data);
+    const result = await router.handle(data);
 
     res.setHeader('Content-Type', 'application/json');
     res.writeHead(result.statusCode ?? 200);
