@@ -1,8 +1,8 @@
-import { RouterRequest, RouterResponse } from './controllers/controller';
+import { RequestHandler, RouterRequest, RouterResponse } from './controllers/controller';
 import general from './controllers/general-controller';
 import usersController from './controllers/users-controller';
 
-type Routes = { [key: string]: (data: RouterRequest) => RouterResponse; };
+type Routes = Record<string, RequestHandler>;
 
 const routes: Routes = {
   ping: general.ping,
@@ -10,9 +10,9 @@ const routes: Routes = {
 };
 
 export default class Router {
-  public handle(request: RouterRequest): RouterResponse {
+  public handle(request: RouterRequest): Promise<RouterResponse> {
     const handler = Object.keys(routes).find((route) => route.match(request.path));
-    if (!handler) return { statusCode: 404 };
+    if (!handler) return Promise.resolve({ statusCode: 404 });
     return routes[handler](request);
   }
 }

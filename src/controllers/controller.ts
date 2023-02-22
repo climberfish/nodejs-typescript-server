@@ -24,4 +24,4 @@ export interface RouterResponse {
   payload?: object;
 }
 
-export type RequestHandler = (data: RouterRequest) => RouterResponse;
+export type RequestHandler = (data: RouterRequest) => Promise<RouterResponse>;
