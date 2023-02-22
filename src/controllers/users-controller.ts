@@ -1,6 +1,5 @@
 import UserRepository from '../repositories/user-repository';
-import { HttpMethod } from '../router';
-import { RequestHandler } from './controller';
+import { HttpMethod, RequestHandler } from './controller';
 
 const crudHandler: RequestHandler = (request) => {
   if (request.method === HttpMethod.POST) {

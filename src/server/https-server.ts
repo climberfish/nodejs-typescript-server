@@ -5,7 +5,7 @@ import { defaultRequestListener, Server } from './server';
 export interface HttpsOptions {
   keyPath: string;
   certPath: string;
-};
+}
 
 export class HttpsServer extends Server {
   constructor(private readonly httpsOptions: HttpsOptions) {

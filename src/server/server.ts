@@ -3,13 +3,13 @@ import { StringDecoder } from 'string_decoder';
 import { IncomingMessage, ServerResponse, Server as HttpServer } from 'http';
 import { Server as HttpsServer } from 'https';
 import config from '../config';
-import Router, { HttpMethod } from '../router';
+import Router from '../router';
+import { HttpMethod } from '../controllers/controller';
 
 type ServerType = HttpServer | HttpsServer;
 
 export abstract class Server {
-
-  constructor(private readonly server: ServerType) {}
+  constructor(private readonly server: ServerType) { }
 
   public listen() {
     this.server.listen(
@@ -35,16 +35,18 @@ export const defaultRequestListener = (req: IncomingMessage, res: ServerResponse
     res.end();
   }
 
-  const headers = req.headers;
+  const { headers } = req;
 
   const decoder = new StringDecoder('utf-8');
   let payload = '';
   req.on('data', (data) => { payload += decoder.write(data); });
-  
+
   req.on('end', () => {
     payload += decoder.end();
 
-    const data = { path: trimmedPath, queryString, method: method as unknown as HttpMethod, headers, payload };
+    const data = {
+      path: trimmedPath, queryString, method: method as unknown as HttpMethod, headers, payload,
+    };
 
     const result = router.handle(data);
 
@@ -55,4 +57,4 @@ export const defaultRequestListener = (req: IncomingMessage, res: ServerResponse
 
     console.log(`Request ${method.toUpperCase()} ${trimmedPath} ${JSON.stringify(queryString)} : ${payload}`);
   });
-}
+};

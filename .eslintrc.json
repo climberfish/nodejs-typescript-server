@@ -1,0 +1,59 @@
+{
+  "root": true,
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "project": "tsconfig.json"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
+      },
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".svg",
+          ".png",
+          ".jpg",
+          ".jpeg"
+        ]
+      }
+    }
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "airbnb-base",
+    "airbnb-typescript/base"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "import"
+  ],
+  "globals": {
+    "process": "readonly"
+  },
+  "ignorePatterns": [
+    "./node_modules",
+    "./dist"
+  ],
+  "rules": {
+    "class-methods-use-this": "off",
+    "no-param-reassign": "off",
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/indent": [
+      "error",
+      2,
+      {
+        "ignoredNodes": [
+          "TSTypeParameterInstantiation"
+        ],
+        "SwitchCase": 1
+      }
+    ]
+  }
+}

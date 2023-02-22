@@ -6,10 +6,9 @@ const baseDir = path.join(__dirname, '/../.data/');
 const getFileName = (dir: string, file: string) => `${baseDir}${dir}/${file}.json`;
 
 const create = (dir: string, file: string, data: object) => {
-  console.log('creating', dir, file, data);
   const filename = getFileName(dir, file);
   const mkdirErr = fs.mkdirSync(path.dirname(filename), { recursive: true });
-  if (mkdirErr) throw mkdirErr;
+  if (mkdirErr) throw new Error(mkdirErr);
 
   const fileDescriptor = fs.openSync(filename, 'wx');
   if (!fileDescriptor) throw Error('Could not create new file, it may already exist');
@@ -48,4 +47,4 @@ const deleteFn = (dir: string, file: string) => {
 
 export default {
   create, read, update, delete: deleteFn,
-}
+};
