@@ -4,9 +4,9 @@
   "description": "Nodejs study",
   "main": "app.ts",
   "scripts": {
-    "dev": "nodemon src/app.ts",
+    "dev": "nodemon src/application/server/index.ts",
     "build": "tsc",
-    "start": "node src/app.js",
+    "start": "node src/application/server/index.js",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
     "test": "echo \"Error: no test specified\" && exit 1"

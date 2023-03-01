@@ -1,4 +1,4 @@
-import { HttpServer } from './server';
+import { HttpServer } from './http-server';
 
 // import path from 'path';
 

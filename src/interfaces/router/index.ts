@@ -1,6 +1,6 @@
-import { RequestHandler, RouterRequest, RouterResponse } from './controllers/controller';
-import general from './controllers/general-controller';
-import usersController from './controllers/users-controller';
+import { RequestHandler, RouterRequest, RouterResponse } from '../controllers/controller';
+import general from '../controllers/general-controller';
+import usersController from '../controllers/users-controller';
 
 type Routes = Record<string, RequestHandler>;
 

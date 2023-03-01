@@ -2,9 +2,9 @@ import url from 'url';
 import { StringDecoder } from 'string_decoder';
 import { IncomingMessage, ServerResponse, Server as HttpServer } from 'http';
 import { Server as HttpsServer } from 'https';
-import config from '../config';
-import Router from '../router';
-import { HttpMethod } from '../controllers/controller';
+import config from '../config/settings';
+import Router from '../../interfaces/router';
+import { HttpMethod } from '../../interfaces/controllers/controller';
 
 type ServerType = HttpServer | HttpsServer;
 
@@ -48,13 +48,23 @@ export const defaultRequestListener = (req: IncomingMessage, res: ServerResponse
       path: trimmedPath, queryString, method: method as unknown as HttpMethod, headers, payload,
     };
 
-    const result = await router.handle(data);
-
     res.setHeader('Content-Type', 'application/json');
-    res.writeHead(result.statusCode ?? 200);
 
-    res.end(JSON.stringify(result.payload ?? {}));
+    try {
+      const result = await router.handle(data);
 
-    console.log(`Request ${method.toUpperCase()} ${trimmedPath} ${JSON.stringify(queryString)} : ${payload}`);
+      res.writeHead(result.statusCode ?? 200);
+
+      res.end(JSON.stringify(result.payload ?? {}));
+
+      console.log(`"${method.toUpperCase()} ${trimmedPath} ${JSON.stringify(queryString)}" ${result.statusCode}\n${payload}`);
+    } catch (error) {
+      res.writeHead(500);
+
+      res.end(JSON.stringify({ message: 'Internal server error' }));
+
+      console.log(`"${method.toUpperCase()} ${trimmedPath} ${JSON.stringify(queryString) ?? ''}" 500\n${payload}`);
+      console.error(error);
+    }
   });
 };

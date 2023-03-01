@@ -1,4 +1,4 @@
-import db from '../db';
+import db from '../../infra/database/localfiles';
 import Entity from '../entities/entity';
 
 export default class Repository {

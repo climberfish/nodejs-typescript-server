@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const baseDir = path.join(__dirname, '/../.data/');
+const baseDir = path.join(__dirname, '.data/');
 
 const getFileName = (dir: string, file: string) => `${baseDir}${dir}/${file}.json`;
 
